@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using MacroscopTest.Utilities;
+using System.Windows.Documents;
+using System.Net.Http;
 
 namespace MacroscopTest.ViewModels
 {
@@ -15,7 +17,6 @@ namespace MacroscopTest.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<VideoViewModel> VideoStreams { get; } = new ObservableCollection<VideoViewModel>();
-
         public ObservableCollection<CameraModel> Cameras { get; } = new ObservableCollection<CameraModel>();
 
         public MainViewModel(ICameraService cameraService)
@@ -33,7 +34,7 @@ namespace MacroscopTest.ViewModels
                 {
                     Cameras.Add(camera);
                     var mjpegUrl = $"http://demo.macroscop.com:8080/mobile?login=root&channelid={camera.Id}&resolutionX=100&resolutionY=160&fps=25";
-                    VideoViewModel videoViewModel = new VideoViewModel(mjpegUrl);
+                    VideoViewModel videoViewModel = new VideoViewModel(mjpegUrl, camera.Id);
                     VideoStreams.Add(videoViewModel);
                     Console.WriteLine($"Added camera '{camera.Name}' with MJPEG URL: {mjpegUrl}");
                 }
@@ -43,7 +44,6 @@ namespace MacroscopTest.ViewModels
                 Console.WriteLine($"{ex.Message}");
             }
         }
-
 
         public MainViewModel() : this(new CameraService())
         {

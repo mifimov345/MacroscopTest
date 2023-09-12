@@ -8,7 +8,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         mc:Ignorable="d"
-        Title="MacroscopTest" Height="1000" Width="1000">
+        Title="MacroscopTest" Height="1000" Width="1020">
     <Window.Resources>
         <Style TargetType="Border">
             <Setter Property="BorderBrush" Value="Black" />
@@ -17,7 +17,12 @@
         </Style>
     </Window.Resources>
     <Grid x:Name="ParentGrid" ZIndex="0">
-        <ItemsControl ItemsSource="{Binding VideoStreams}" Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="78*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="20*"/>
+        </Grid.ColumnDefinitions>
+        <ItemsControl ItemsSource="{Binding VideoStreams}" Margin="10,10,10,10" Grid.ColumnSpan="1">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
@@ -26,11 +31,15 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border>
-                        <Image Source="{Binding VideoFrame}" Height="200" Width="300" MouseDown="Image_MouseDown">
+                        <Image Source="{Binding VideoFrame}" Height="200" Width="300" MouseDown="Image_MouseDown" Tag="{Binding Id}">
                         </Image>
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <Viewbox Grid.Column="2">
+            <ListBox x:Name="Archive" FontSize="24" Width="600" Height="1500" Visibility="Hidden">
+            </ListBox>
+        </Viewbox>
     </Grid>
 </Window>

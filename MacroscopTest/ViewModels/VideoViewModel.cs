@@ -41,9 +41,21 @@ namespace MacroscopTest.ViewModels
             }
         }
 
-        public VideoViewModel(string mjpegUrl)
+        private string _id;
+        public string Id
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
+
+        public VideoViewModel(string mjpegUrl, string id)
         {
             MjpegUrl = mjpegUrl;
+            Id = id;
             StartFetchingFrames();
         }
 
